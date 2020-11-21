@@ -413,9 +413,9 @@ public class Gleitpunktzahl {
 		if(vorzeichen && r.vorzeichen){//ambos negativos
 			res.mantisse = r.mantisse - mantisse;
 			if(res.mantisse<0){
-				res.mantisse = true;
+				res.vorzeichen = true;
 			}else{
-				res.mantisse = false;
+				res.vorzeichen = false;
 			}
 		}else if(vorzeichen){//en caso de que alguno de los dos numeros sea negativo hay que restar las mantisse
 			res.mantisse = mantisse + r.mantisse;
