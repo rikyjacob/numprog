@@ -289,7 +289,7 @@ public class Gleitpunktzahl {
 	 * Beispiel: Bei 3 Mantissenbits wird die Zahl 10.11 * 2^-1 zu 1.10 * 2^0
 	 */
 	public void normalisiere() {
-		this.mantisse *= 2;
+		this.mantisse <<= 1;
 		this.exponent += 1;
 	}
 
@@ -300,7 +300,7 @@ public class Gleitpunktzahl {
 	 */
 	public static void denormalisiere(Gleitpunktzahl a, Gleitpunktzahl b) {
 		for(int i = a.exponent; i > b.exponent; i--){
-			a.mantisse /= 2; // a es el mas grande asi que se divide el a hasta que los exponentes a y b son iguales
+			a.mantisse >>= 1; // a es el mas grande asi que se divide el a hasta que los exponentes a y b son iguales
 		}
 		a.exponent = b.exponent;
 	}
@@ -312,6 +312,25 @@ public class Gleitpunktzahl {
 	 * gespeichert, normiert, und dieses wird zurueckgegeben.
 	 */
 	public Gleitpunktzahl add(Gleitpunktzahl r) {
+
+		Gleitpunktzahl res = new Gleitpunktzahl();//res por result
+
+		if(this.isInfinite()){
+			res.setInfinite(this.vorzeichen);
+			return res;
+		}if(r.isInfinite()){
+			res.setInfinite((r.vorzeichen));
+			return res;
+		}if(this.isNull()){
+			return r;
+		}if(r.isNull()){
+			return this;
+		}if(this.isNaN()){
+			//TODO
+		}if(r.isNaN()){
+			//TODO
+		}
+
 		//el numero mas grande betragmassig es this
 		if(this.compareAbsTo(r) >= 1){
 			denormalisiere(this,r);
@@ -319,8 +338,6 @@ public class Gleitpunktzahl {
 			denormalisiere(r,this);
 		}
 		//si son iguales no hay que denormalisar no ? ni idea.....
-
-		Gleitpunktzahl res = new Gleitpunktzahl();//res por result
 
 		if(vorzeichen && r.vorzeichen){//ambos negativos
 			res.mantisse = mantisse + r.mantisse;
@@ -365,6 +382,30 @@ public class Gleitpunktzahl {
 	 * gespeichert, normiert, und dieses wird zurueckgegeben.
 	 */
 	public Gleitpunktzahl sub(Gleitpunktzahl r) {
+
+		Gleitpunktzahl res = new Gleitpunktzahl();//res por result
+
+		if(this.isInfinite()){
+			res.setInfinite(this.vorzeichen);
+			return res;
+		}if(r.isInfinite()){
+			res.setInfinite((!r.vorzeichen)); // porque es menos menos
+			return res;
+		}if(this.isNull()){
+			if(r.vorzeichen){
+				r.vorzeichen = false; // menos por menos es mas osea false
+			}else{
+				r.vorzeichen = true;
+			}
+			return r;
+		}if(r.isNull()){//no restas nada asi que no hay que cambiar el vorzzeichen
+			return this;
+		}if(this.isNaN()){
+			//TODO
+		}if(r.isNaN()){
+			//TODO
+		}
+
 		//el mas grande es r
 		if(this.compareAbsTo(r) == 1){
 			denormalisiere(r,this);
@@ -372,8 +413,6 @@ public class Gleitpunktzahl {
 			denormalisiere(this,r);
 		}
 		//si son iguales no hay que denormalisar no ?
-
-		Gleitpunktzahl res = new Gleitpunktzahl();//res por result
 
 		if(vorzeichen && r.vorzeichen){//ambos negativos
 			res.mantisse = mantisse + r.mantisse;
