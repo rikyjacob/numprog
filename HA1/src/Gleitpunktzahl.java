@@ -334,13 +334,14 @@ public class Gleitpunktzahl {
 		//el numero mas grande betragmassig es this
 		if(this.compareAbsTo(r) >= 1){
 			denormalisiere(this,r);
-		}if(this.compareAbsTo(r) <= -1){ // el mas grande es el this
+		}if(this.compareAbsTo(r) <= -1){ // el mas grande es el r
 			denormalisiere(r,this);
 		}
 		//si son iguales no hay que denormalisar no ? ni idea.....
 
 		if(vorzeichen && r.vorzeichen){//ambos negativos
 			res.mantisse = mantisse + r.mantisse;
+			res.vorzeichen = true;
 		}else if(vorzeichen){//en caso de que alguno de los dos numeros sea negativo hay que restar las mantisse
 			res.mantisse = r.mantisse - mantisse;
 			if(res.mantisse < 0){//si el resultado es negativo, hacerlo positivo y cambiar el vorzeichen
@@ -359,17 +360,12 @@ public class Gleitpunktzahl {
 					}
 		}else{//ambos positivos
 			res.mantisse = mantisse + r.mantisse;
+			res.vorzeichen = false;
 		}
 
 		//los edgecases de si es null,nan o infinnito
-		if(isNull()){
+		if(res.isNull()){
 			res.setNull();
-		}
-		if(isNaN()){
-			res.setNaN();
-		}
-		if(isInfinite()){
-			res.setInfinite(res.vorzeichen);
 		}
 
 		res.normalisiere();
