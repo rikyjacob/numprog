@@ -326,9 +326,9 @@ public class Gleitpunktzahl {
 		}if(r.isNull()){
 			return this;
 		}if(this.isNaN()){
-			//TODO
+			return this;
 		}if(r.isNaN()){
-			//TODO
+			return r;
 		}
 
 		//el numero mas grande betragmassig es this
@@ -401,9 +401,9 @@ public class Gleitpunktzahl {
 		}if(r.isNull()){//no restas nada asi que no hay que cambiar el vorzzeichen
 			return this;
 		}if(this.isNaN()){
-			//TODO
+			return this;
 		}if(r.isNaN()){
-			//TODO
+			return r;
 		}
 
 		//el mas grande es r
