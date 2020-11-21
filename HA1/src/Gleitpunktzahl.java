@@ -289,13 +289,8 @@ public class Gleitpunktzahl {
 	 * Beispiel: Bei 3 Mantissenbits wird die Zahl 10.11 * 2^-1 zu 1.10 * 2^0
 	 */
 	public void normalisiere() {
-		/*
-		 * TODO: hier ist die Operation normalisiere zu implementieren.
-		 * Beachten Sie, dass die Groesse (Anzahl der Bits) des Exponenten
-		 * und der Mantisse durch sizeExponent bzw. sizeMantisse festgelegt
-		 * ist.
-		 * Achten Sie auf Sonderfaelle!
-		 */
+		this.mantisse *= 2;
+		this.exponent += 1;
 	}
 
 	/**
@@ -304,9 +299,10 @@ public class Gleitpunktzahl {
 	 * erweitert. Denormalisieren wird fuer add und sub benoetigt.
 	 */
 	public static void denormalisiere(Gleitpunktzahl a, Gleitpunktzahl b) {
-		/*
-		 * TODO: hier ist die Operation denormalisiere zu implementieren.
-		 */
+		for(int i = a.exponent; i > b.exponent; i--){
+			a.mantisse /= 2; // a es el mas grande asi que se divide el a hasta que los exponentes a y b son iguales
+		}
+		a.exponent = b.exponent;
 	}
 
 	/**
@@ -316,15 +312,52 @@ public class Gleitpunktzahl {
 	 * gespeichert, normiert, und dieses wird zurueckgegeben.
 	 */
 	public Gleitpunktzahl add(Gleitpunktzahl r) {
-		/*
-		 * TODO: hier ist die Operation add zu implementieren. Verwenden Sie die
-		 * Funktionen normalisiere und denormalisiere.
-		 * Achten Sie auf Sonderfaelle!
-		 */
+		//el numero mas grande betragmassig es this
+		if(this.compareAbsTo(r) >= 1){
+			denormalisiere(this,r);
+		}if(this.compareAbsTo(r) <= -1){ // el mas grande es el this
+			denormalisiere(r,this);
+		}
+		//si son iguales no hay que denormalisar no ? ni idea.....
 
-		return new Gleitpunktzahl();
+		Gleitpunktzahl res = new Gleitpunktzahl();//res por result
+
+		if(vorzeichen && r.vorzeichen){//ambos negativos
+			res.mantisse = mantisse + r.mantisse;
+		}else if(vorzeichen){//en caso de que alguno de los dos numeros sea negativo hay que restar las mantisse
+			res.mantisse = r.mantisse - mantisse;
+			if(res.mantisse < 0){//si el resultado es negativo, hacerlo positivo y cambiar el vorzeichen
+				res.mantisse *= -1;
+				res.vorzeichen= true;
+			}else{
+				res.vorzeichen = false;
+			}
+		}else if(r.vorzeichen){
+			res.mantisse = mantisse - r.mantisse;
+					if(res.mantisse < 0){
+						res.mantisse *= -1;
+						res.vorzeichen= true;
+					}else{
+						res.vorzeichen = false;
+					}
+		}else{//ambos positivos
+			res.mantisse = mantisse + r.mantisse;
+		}
+
+		//los edgecases de si es null,nan o infinnito
+		if(isNull()){
+			res.setNull();
+		}
+		if(isNaN()){
+			res.setNaN();
+		}
+		if(isInfinite()){
+			res.setInfinite(res.vorzeichen);
+		}
+
+		res.normalisiere();
+		return res;
 	}
-
 	/**
 	 * subtrahiert vom aktuellen Objekt die Gleitpunktzahl r. Dabei wird zuerst
 	 * die betragsmaessig groessere Zahl denormalisiert und die Mantissen beider
@@ -332,13 +365,53 @@ public class Gleitpunktzahl {
 	 * gespeichert, normiert, und dieses wird zurueckgegeben.
 	 */
 	public Gleitpunktzahl sub(Gleitpunktzahl r) {
-		/*
-		 * TODO: hier ist die Operation sub zu implementieren. Verwenden Sie die
-		 * Funktionen normalisiere und denormalisiere.
-		 * Achten Sie auf Sonderfaelle!
-		 */
-		 
-		return new Gleitpunktzahl();
+		//el mas grande es r
+		if(this.compareAbsTo(r) == 1){
+			denormalisiere(r,this);
+		}if(this.compareAbsTo(r) == -1){ // el mas grande es el this
+			denormalisiere(this,r);
+		}
+		//si son iguales no hay que denormalisar no ?
+
+		Gleitpunktzahl res = new Gleitpunktzahl();//res por result
+
+		if(vorzeichen && r.vorzeichen){//ambos negativos
+			res.mantisse = mantisse + r.mantisse;
+		}else if(vorzeichen){//en caso de que alguno de los dos numeros sea negativo hay que restar las mantisse
+			res.mantisse = r.mantisse - mantisse;
+			if(res.mantisse < 0){//si el resultado es negativo, hacerlo positivo y cambiar el vorzeichen
+				res.mantisse *= -1;
+				res.vorzeichen= true;
+			}else{
+				res.vorzeichen = false;
+			}
+		}else if(r.vorzeichen){
+			res.mantisse = mantisse - r.mantisse;
+			if(res.mantisse < 0){
+				res.mantisse *= -1;
+				res.vorzeichen= true;
+			}else{
+				res.vorzeichen = false;
+			}
+		}else{//ambos positivos
+			res.mantisse = mantisse + r.mantisse;
+		}
+
+		//los edgecases de si es null,nan o infinnito
+		if(isNull()){
+			res.setNull();
+			return res;
+		}
+		if(isNaN()){
+			res.setNaN();
+			return res;
+		}
+		if(isInfinite()){
+			res.setInfinite(res.vorzeichen);
+			return res;
+		}
+		res.normalisiere();
+		return res;
 	}
 	
 	/**
