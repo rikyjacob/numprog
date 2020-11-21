@@ -403,33 +403,33 @@ public class Gleitpunktzahl {
 		}
 
 		//el mas grande es r
-		if(this.compareAbsTo(r) == 1){
+		if(this.compareAbsTo(r) >= 1){
 			denormalisiere(r,this);
-		}if(this.compareAbsTo(r) == -1){ // el mas grande es el this
+		}if(this.compareAbsTo(r) <= -1){ // el mas grande es el this
 			denormalisiere(this,r);
 		}
 		//si son iguales no hay que denormalisar no ?
 
 		if(vorzeichen && r.vorzeichen){//ambos negativos
-			res.mantisse = mantisse + r.mantisse;
-		}else if(vorzeichen){//en caso de que alguno de los dos numeros sea negativo hay que restar las mantisse
 			res.mantisse = r.mantisse - mantisse;
-			if(res.mantisse < 0){//si el resultado es negativo, hacerlo positivo y cambiar el vorzeichen
-				res.mantisse *= -1;
-				res.vorzeichen= true;
+			if(res.mantisse<0){
+				res.mantisse = true;
 			}else{
-				res.vorzeichen = false;
+				res.mantisse = false;
 			}
+		}else if(vorzeichen){//en caso de que alguno de los dos numeros sea negativo hay que restar las mantisse
+			res.mantisse = mantisse + r.mantisse;
+			res.vorzeichen = true;
 		}else if(r.vorzeichen){
+			res.mantisse = mantisse + r.mantisse;
+			res.vorzeichen = false;
+		}else{//ambos positivos
 			res.mantisse = mantisse - r.mantisse;
 			if(res.mantisse < 0){
-				res.mantisse *= -1;
-				res.vorzeichen= true;
+				res.vorzeichen = true;
 			}else{
 				res.vorzeichen = false;
 			}
-		}else{//ambos positivos
-			res.mantisse = mantisse + r.mantisse;
 		}
 
 		//los edgecases de si es null,nan o infinnito
@@ -437,14 +437,7 @@ public class Gleitpunktzahl {
 			res.setNull();
 			return res;
 		}
-		if(isNaN()){
-			res.setNaN();
-			return res;
-		}
-		if(isInfinite()){
-			res.setInfinite(res.vorzeichen);
-			return res;
-		}
+
 		res.normalisiere();
 		return res;
 	}
