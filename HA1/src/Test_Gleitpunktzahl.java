@@ -132,14 +132,14 @@ public class Test_Gleitpunktzahl {
 			// Test: Sonderfaelle
 			// 0 - inf
 			System.out.println("Test: Sonderfaelle");
-			x = new Gleitpunktzahl(0.0);
+			x = new Gleitpunktzahl(-1.0 / 0.0);
 			y = new Gleitpunktzahl(1.0 / 0.0);
 
 			// Referenzwerte setzen
 			gleitref.setInfinite(true);
 
 			// Berechnung mit der Methode des Studenten durchfuehren
-			gleiterg = x.sub(y);
+			gleiterg = x.add(y);
 
 			// Test, ob Ergebnis korrekt
 			if (gleiterg.compareAbsTo(gleitref) != 0
