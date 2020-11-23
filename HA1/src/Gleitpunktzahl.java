@@ -2,12 +2,12 @@ public class Gleitpunktzahl {
 
 	/**
 	 * Update by
-	 *
+	 * 
 	 * @author Juergen Braeckle (braeckle@in.tum.de)
 	 * @author Sebastian Rettenberger (rettenbs@in.tum.de)
 	 * @since Oktober 22, 2014
 	 * @version 1.2
-	 *
+	 * 
 	 *          Diese Klasse beschreibt eine Form von Gleitpunktarithmetik
 	 */
 
@@ -151,7 +151,7 @@ public class Gleitpunktzahl {
 			d = 2 * d;
 			exp--;
 		} /* d in [1,2) */
-
+		
 		this.exponent = exp + expOffset;
 
 		/*
@@ -181,7 +181,7 @@ public class Gleitpunktzahl {
 			return "NaN";
 		if (this.isNull())
 			return "0";
-
+			
 		StringBuffer s = new StringBuffer();
 		if (this.vorzeichen)
 			s.append('-');
@@ -189,7 +189,7 @@ public class Gleitpunktzahl {
 			s.append("Inf");
 		else {
 			for (int i = 32 - Integer.numberOfLeadingZeros(this.mantisse) - 1;
-				 i >= 0; i--) {
+					i >= 0; i--) {
 				if (i == sizeMantisse - 2)
 					s.append(',');
 				if (((this.mantisse >> i) & 1) == 1)
@@ -231,8 +231,8 @@ public class Gleitpunktzahl {
 		if (this.vorzeichen)
 			m *= (-1);
 		return m
-				* Math.pow(2, (this.exponent - expOffset)
-				- (sizeMantisse - 1));
+			* Math.pow(2, (this.exponent - expOffset)
+					- (sizeMantisse - 1));
 	}
 
 	/**
@@ -285,15 +285,15 @@ public class Gleitpunktzahl {
 	 * soll aber eine Mantisse mit sizeMantisse Bits haben. Deshalb muss
 	 * evtl. mit Bits aufgefuellt oder Bits abgeschnitten werden. Dabei muss das
 	 * Ergebnis nach Definition gerundet werden.
-	 *
+	 * 
 	 * Beispiel: Bei 3 Mantissenbits wird die Zahl 10.11 * 2^-1 zu 1.10 * 2^0
 	 */
 	public static int count = 0;
 	public void normalisiere() {
-		for(int i = 0; i < count; i++){
-			this.exponent++;
-			this.mantisse >>= 1;
-		}
+			for(int i = 0; i < count; i++){
+				this.exponent++;
+				this.mantisse >>= 1;
+			}
 	}
 
 	/**
@@ -357,12 +357,12 @@ public class Gleitpunktzahl {
 			}
 		}else if(r.vorzeichen){
 			res.mantisse = mantisse - r.mantisse;
-			if(res.mantisse < 0){
-				res.mantisse *= -1;
-				res.vorzeichen= true;
-			}else{
-				res.vorzeichen = false;
-			}
+					if(res.mantisse < 0){
+						res.mantisse *= -1;
+						res.vorzeichen= true;
+					}else{
+						res.vorzeichen = false;
+					}
 		}else{//ambos positivos
 			res.mantisse = mantisse + r.mantisse;
 			res.exponent = exponent;
@@ -440,7 +440,7 @@ public class Gleitpunktzahl {
 		count = 0;
 		return res;
 	}
-
+	
 	/**
 	 * Setzt die Zahl auf den Sonderfall 0
 	 */
@@ -449,7 +449,7 @@ public class Gleitpunktzahl {
 		this.exponent = 0;
 		this.mantisse = 0;
 	}
-
+	
 	/**
 	 * Setzt die Zahl auf den Sonderfall +/- unendlich
 	 */
@@ -458,7 +458,7 @@ public class Gleitpunktzahl {
 		this.exponent = maxExponent;
 		this.mantisse = 0;
 	}
-
+	
 	/**
 	 * Setzt die Zahl auf den Sonderfall NaN
 	 */

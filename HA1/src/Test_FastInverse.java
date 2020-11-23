@@ -2,7 +2,7 @@ import javax.swing.JFrame;
 
 /**
  * @author Christoph Riesinger (riesinge@in.tum.de)
- * @author Jürgen Bräckle (braeckle@in.tum.de)
+ * @author Jurgen Brackle (braeckle@in.tum.de)
  * @author Sebastian Rettenberger (rettenbs@in.tum.de)
  * @since November 02, 2012
  * @version 1.1
