@@ -45,7 +45,7 @@ public class FastMath {
 	 */
 	public static Gleitpunktzahl invSqrt(Gleitpunktzahl x) {
 		int number = gleitpunktzahlToIEEE(x);
-		if (number >> 31 == 1 || number == 0) { //si el numero es negativo return nan...
+		if (number >>> 31 == 1 || number == 0) { //si el numero es negativo return nan...
 			Gleitpunktzahl nan = new Gleitpunktzahl();
 			nan.setNaN();
 			return nan;
