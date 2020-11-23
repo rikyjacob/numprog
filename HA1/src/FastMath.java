@@ -1,10 +1,10 @@
 /**
  * @author Christoph Riesinger (riesinge@in.tum.de)
- * @author Jürgen Bräckle (braeckle@in.tum.de)
+ * @author Jurgen Brackle (braeckle@in.tum.de)
  * @author Sebastian Rettenberger (rettenbs@in.tum.de)
  * @since Oktober 22, 2014
  * @version 1.2
- * 
+ *
  *          This class contains methods for rapidly calculating basic
  *          mathematical operations.
  */
@@ -12,10 +12,10 @@ public class FastMath {
 	/**
 	 * The "magic" constant which is used in the fast inverse square root
 	 * algorithm.
-	 * 
+	 *
 	 * The given initial value is just a test value for 8 mantissa bits and 4
 	 * exponent bits, and has to be optimized by the students.
-	 * 
+	 *
 	 * In literature, several of those constants for floats or doubles can be
 	 * found. There's no optimal constant for all cases.
 	 */
@@ -32,33 +32,33 @@ public class FastMath {
 	 * This method contains the code for the fast inverse square root algorithm
 	 * which can e.g. be found in "Fast Inverse Square Root" from Lomont, Chris
 	 * (February, 2003).
-	 * 
+	 *
 	 * It approximately calculates the value 1 / sqrt(x).
-	 * 
+	 *
 	 * No Newton steps to improve the result has to be implemented in this
 	 * exercise.
-	 * 
+	 *
 	 * @param x
 	 *            Input value of which the inverse square root should be
 	 *            computed.
 	 * @return Approximation for 1 / sqrt(x).
 	 */
 	public static Gleitpunktzahl invSqrt(Gleitpunktzahl x) {
-	    int number = gleitpunktzahlToIEEE(x);
-	    if (number >>> 31 == 1 || number == 0) { //si el numero es negativo return nan...
-		Gleit2 nan = new Gleit2();
-		nan.setNaN();
-		return nan;
-	    }
-	    number >>= 1;
-	    number = MAGIC_NUMBER - number;
-	    return iEEEToGleitpunktzahl(number);
+		int number = gleitpunktzahlToIEEE(x);
+		if (number >> 31 == 1 || number == 0) { //si el numero es negativo return nan...
+			Gleitpunktzahl nan = new Gleitpunktzahl();
+			nan.setNaN();
+			return nan;
+		}
+		number >>= 1;
+		number = MAGIC_NUMBER - number;
+		return iEEEToGleitpunktzahl(number);
 	}
 
 	/**
 	 * Calculates the absolute error between the result of the fast inverse
 	 * square root algorithm and the "exact" IEEE-conform result.
-	 * 
+	 *
 	 * @param x
 	 *            Position where the absolute error should be determined.
 	 * @return Absolute error between invSqrt(x) and 1 / Math.sqrt(x).
@@ -74,7 +74,7 @@ public class FastMath {
 	/**
 	 * Calculates the relative error between the result of the fast inverse
 	 * square root algorithm and the "exact" IEEE-conform result.
-	 * 
+	 *
 	 * @param x
 	 *            Position where the relative error should be determined.
 	 * @return Relative error between invSqrt(x) and 1 / Math.sqrt(x).
@@ -89,22 +89,22 @@ public class FastMath {
 	/**
 	 * Uebersetzt die Gleitpunktzahl in eine Bitfolge (int) aehnlich dem IEEE
 	 * Standard, d.h. in die Form [Vorzeichen, Exponent, Mantisse], wobei die
-	 * führende 1 der Mantisse nicht gespeichert wird. Dieser Wechsel ist noetig
-	 * für ein Funktionieren des Fast Inverse Sqrt Algorithmus
+	 * fuhrende 1 der Mantisse nicht gespeichert wird. Dieser Wechsel ist noetig
+	 * fur ein Funktionieren des Fast Inverse Sqrt Algorithmus
 	 */
 	public static int gleitpunktzahlToIEEE(Gleitpunktzahl x) {
 		int sizeExponent = Gleitpunktzahl.getSizeExponent();
 		int sizeMantisse = Gleitpunktzahl.getSizeMantisse();
 
 		int result;
-		
+
 		/* mantisse ohne fuehrende 1 einfuegen */
 		int mask = (int) Math.pow(2, sizeMantisse-1) - 1;
 		result = (x.mantisse & mask);
-		
+
 		/* exponent vorne anhaengen */
 		result |= (x.exponent << sizeMantisse-1);
-		
+
 		/* vorzeichen setzen */
 		if (x.vorzeichen)
 			result |= (1 << sizeExponent + sizeMantisse-1);
@@ -114,7 +114,7 @@ public class FastMath {
 
 	/**
 	 * Liefert aus einer Bitfolge (int) in IEEE Darstellung, d.h. [Vorzeichen,
-	 * Exponent, Mantisse] mit Mantisse ohne führende Null, die entsprechende
+	 * Exponent, Mantisse] mit Mantisse ohne fuhrende Null, die entsprechende
 	 * Gleitpunktdarstellung
 	 */
 	public static Gleitpunktzahl iEEEToGleitpunktzahl(int b) {
@@ -133,7 +133,7 @@ public class FastMath {
 		b >>= sizeMantisse-1;
 		mask = (int) Math.pow(2, sizeExponent) - 1;
 		g.exponent = (b & mask);
-		
+
 		/* vorzeichen setzen */
 		b >>= sizeExponent;
 		g.vorzeichen = (b & 1) > 0;
