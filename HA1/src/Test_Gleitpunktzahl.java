@@ -48,7 +48,7 @@ public class Test_Gleitpunktzahl {
 				System.out.println("    Richtiges Ergebnis\n");
 			}
 
-			/*************
+			/*
 			 * Eigene Tests einfuegen
 			 */
 
@@ -81,7 +81,7 @@ public class Test_Gleitpunktzahl {
 				System.out.println("    Richtiges Ergebnis\n");
 			}
 
-			/*************
+			/*
 			 * Eigene Tests einfuegen
 			 */
 
@@ -115,7 +115,7 @@ public class Test_Gleitpunktzahl {
 				System.out.println("    Richtiges Ergebnis\n");
 			}
 
-			/*************
+			/*
 			 * Eigene Tests einfuegen
 			 */
 
@@ -133,7 +133,7 @@ public class Test_Gleitpunktzahl {
 			// 0 - inf
 			System.out.println("Test: Sonderfaelle");
 			x = new Gleitpunktzahl(-1.0 / 0.0);
-			y = new Gleitpunktzahl(1.0 / 0.0);
+			y = new Gleitpunktzahl(1.0/0.0);
 
 			// Referenzwerte setzen
 			gleitref.setInfinite(true);
@@ -144,13 +144,15 @@ public class Test_Gleitpunktzahl {
 			// Test, ob Ergebnis korrekt
 			if (gleiterg.compareAbsTo(gleitref) != 0
 					|| gleiterg.vorzeichen != gleitref.vorzeichen) {
-				printSub(x.toString(), y.toString());
+				printAdd(x.toString(), y.toString());
 				printErg(gleiterg.toString(), gleitref.toString());
 			} else {
+				printAdd(x.toString(), y.toString());
+				printErg(gleiterg.toString(), gleitref.toString());
 				System.out.println("    Richtiges Ergebnis\n");
 			}
 			
-			/*************
+			/*
 			 * Eigene Tests einfuegen
 			 */
 
