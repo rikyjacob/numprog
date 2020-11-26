@@ -323,16 +323,16 @@ public class Gleitpunktzahl {
 		if(this.isInfinite()){
 			res.setInfinite(this.vorzeichen);
 			return res;
-		}if(r.isInfinite()){
+		}else if(r.isInfinite()){
 			res.setInfinite((r.vorzeichen));
 			return res;
-		}if(this.isNull()){
+		}else if(this.isNull()){
 			return r;
-		}if(r.isNull()){
+		}else if(r.isNull()){
 			return this;
-		}if(this.isNaN()){
+		}else if(this.isNaN()){
 			return this;
-		}if(r.isNaN()){
+		}else if(r.isNaN()){
 			return r;
 		}
 
